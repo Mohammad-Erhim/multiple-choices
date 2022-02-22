@@ -50,9 +50,7 @@ app.use(function (error, req, res, next) {
   res.status(status).json({ message: message, data: error.data });
 });
 
-app.use(function (req, res, next) {
-  res.status(404).json({ message: "Not found." });
-});app.get("*", (req, res) => {
+ app.get("*", (req, res) => {
    
   res.sendFile(path.join(__dirname, "/client/build",'index.html'));
 });

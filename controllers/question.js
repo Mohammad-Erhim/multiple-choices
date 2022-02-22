@@ -36,7 +36,7 @@ exports.questions = async (req, res, next) => {
       userRef: Types.ObjectId(userRef),
     }).skip(skip);
 if(!question)
-return next();
+return  res.status(404).json({ message: "Not found." });
     const answer = await Answer.findById(Types.ObjectId(question.answerRef));
 
     const count = await Answer.count();
