@@ -42,12 +42,13 @@ exports.questions = async (req, res, next) => {
     const count = await Answer.count({
       userRef: Types.ObjectId(userRef),
     });
-    const random = Math.floor(Math.random() * count);
+    
 
     let options = (
       await Promise.all(
         [1, 2, 3, 4].map(async (element, index) => {
-          return await Answer.findOne({
+      const random = Math.floor(Math.random() * count);    
+return await Answer.findOne({
             userRef: Types.ObjectId(userRef),
           }).skip(random);
         })
