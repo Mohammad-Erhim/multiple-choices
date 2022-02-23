@@ -32,7 +32,7 @@ function Exam() {
         setQuestion(res.data.question);
 
         setOptions(res.data.options);
-        speak({ text:res.data.question.text})
+        speak({ text: res.data.question.text });
       } catch (error: any) {
         if (error?.response?.status === 401) {
           dispatch(authActions.setToken(null));
@@ -72,18 +72,15 @@ function Exam() {
   };
 
   return (
-    <>
+    <div className="exam-content">
       {" "}
-      <div>
-        {" "}
-        <Link to="/home">Home</Link>
-      </div>
-      <span>Question</span>
-      <div>
-        <button onClick={() => speak({ text:question?.text})}>Question: {question?.text}</button>
+      <div className="exam-content__question">
+        <button onClick={() => speak({ text: question?.text })}>
+           {question?.text}
+        </button>
       </div>
       {!loading && !answer && (
-        <div>
+        <div className="exam-content__options">
           {options.map((option) => (
             <button
               style={{ display: "block" }}
@@ -96,8 +93,8 @@ function Exam() {
         </div>
       )}
       {answer && (
-        <div>
-          <span>answer: {answer.text}</span>
+        <div className="exam-content__answer">
+          <span> {answer.text}</span>
           <button
             onClick={() => {
               setAnswer(undefined);
@@ -108,7 +105,7 @@ function Exam() {
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

@@ -4,16 +4,27 @@ import { useDispatch } from "react-redux";
  
 import { Link } from "react-router-dom";
 import { authActions } from "../store";
-import { Err } from "../util/ts";
 
+enum Inputs {
+  Name,
+  Email,
+  Password,
+  ConfirmPassword,
+}
 
+interface Err {
+  location: string;
+  msg: string;
+  param: string;
+  value: string;
+}
 const Login: FC = () => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
- 
+  const [foucs, setFoucs] = useState<Inputs|null>(null);
   const [errs, setErrs] = useState<Err[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -27,6 +38,7 @@ const Login: FC = () => {
         password,
       });
  
+ 
       dispatch(authActions.setToken(res.data.token));
     } catch (error: any) {
       if (error?.response?.status === 400) {
@@ -36,46 +48,51 @@ const Login: FC = () => {
     }
   };
   return (
-    <form onSubmit={onSubmit}  >
-     
-      <span >Login in </span>
+    <form onSubmit={onSubmit} className="form init-animation">
+  
+      <span className="title">Login in "Multiple Choices"</span>
       <div
-         
+        className={`form__input ${
+          foucs === Inputs.Email || email ? "focus" : ""
+        } ${errs.find((e) => e.param === "email")?.param ? "err" : ""}`}
       >
-       
-        <span >Email</span> <input
+        <input
           type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-        
+          onFocus={() => setFoucs(Inputs.Email)}
+          onBlur={() => setFoucs(null)}
         ></input>
 
-        <span>
+        <span className="label">Email</span>
+        <span className="err">
           {errs.find((e) => e.param === "email")?.msg}
         </span>
       </div>{" "}
       <div
-       
+        className={`form__input ${
+          foucs === Inputs.Password || password ? "focus" : ""
+        } ${errs.find((e) => e.param === "password")?.param ? "err" : ""}`}
       >
-    <span  >Password</span>       <input
+        <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        
+          onFocus={() => setFoucs(Inputs.Password)}
+          onBlur={() => setFoucs(null)}
         ></input>
-     
-        <span  >
+        <span className="label">Password</span>
+        <span className="err">
           {errs.find((e) => e.param === "password")?.msg}
         </span>
       </div>{" "}
-      <button type="submit" >
+      <button type="submit" className={`btn ${loading?'disable-btn':''}`}>
         Login
       </button>
-      <div>
-     
-      <Link   to="/signup">
+       
+      <Link className="link" to="/signup">
         If you have not account signup
-      </Link></div>
+      </Link>
     </form>
   );
 };
