@@ -35,6 +35,7 @@ exports.questions = async (req, res, next) => {
     const question = await Question.findOne({
       userRef: Types.ObjectId(userRef),
     }).skip(skip);
+ 
 if(!question)
 return  res.status(404).json({ message: "Not found." });
     const answer = await Answer.findById(Types.ObjectId(question.answerRef));
@@ -44,7 +45,7 @@ return  res.status(404).json({ message: "Not found." });
 
     let options = await Promise.all(
       [1, 2, 3, 4].map(async (element, index) => {
-        return await Answer.findOne().skip(random).exec();
+        return await Answer.findOne({  userRef: Types.ObjectId(userRef)}).skip(random);
       })
     );
     options.push(answer);
