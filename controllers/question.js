@@ -39,7 +39,9 @@ exports.questions = async (req, res, next) => {
     if (!question) return res.status(404).json({ message: "Not found." });
     const answer = await Answer.findById(Types.ObjectId(question.answerRef));
 
-    const count = await Answer.count();
+    const count = await Answer.count({
+      userRef: Types.ObjectId(userRef),
+    });
     const random = Math.floor(Math.random() * count);
 
     let options = (
@@ -52,7 +54,6 @@ exports.questions = async (req, res, next) => {
       )
     ).filter((i) => i);
 
-  
     if (answer) options.push(answer);
 
     if (options.length) {
