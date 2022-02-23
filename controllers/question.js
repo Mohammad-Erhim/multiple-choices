@@ -35,21 +35,29 @@ exports.questions = async (req, res, next) => {
     const question = await Question.findOne({
       userRef: Types.ObjectId(userRef),
     }).skip(skip);
- 
-if(!question)
-return  res.status(404).json({ message: "Not found." });
+
+    if (!question) return res.status(404).json({ message: "Not found." });
     const answer = await Answer.findById(Types.ObjectId(question.answerRef));
 
     const count = await Answer.count();
     const random = Math.floor(Math.random() * count);
 
-    let options = await Promise.all(
-      [1, 2, 3, 4].map(async (element, index) => {
-        return await Answer.findOne({  userRef: Types.ObjectId(userRef)}).skip(random);
-      })
-    );
-    options.push(answer);
-    options = shuffle(filteredArr(options));
+    let options = (
+      await Promise.all(
+        [1, 2, 3, 4].map(async (element, index) => {
+          return await Answer.findOne({
+            userRef: Types.ObjectId(userRef),
+          }).skip(random);
+        })
+      )
+    ).filter((i) => i);
+
+  
+    if (answer) options.push(answer);
+
+    if (options.length) {
+      options = shuffle(filteredArr(options));
+    }
 
     res.status(200).json({ question, options });
   } catch (err) {
@@ -110,10 +118,19 @@ exports.answer = async (req, res, next) => {
 
     const question = await Question.findById(Types.ObjectId(questionId));
     const answer = await Answer.findById(Types.ObjectId(question.answerRef));
- 
+
     if (answer._id.toString() === answerRef)
-      user = await User.findOneAndUpdate({ _id:Types.ObjectId( user._id )}, { $inc: { success: 1 } }  , { returnOriginal: false },);
-    else user = await User.findOneAndUpdate({ _id:Types.ObjectId( user._id ) }, { $inc: { fail: 1 } },   { returnOriginal: false },);
+      user = await User.findOneAndUpdate(
+        { _id: Types.ObjectId(user._id) },
+        { $inc: { success: 1 } },
+        { returnOriginal: false }
+      );
+    else
+      user = await User.findOneAndUpdate(
+        { _id: Types.ObjectId(user._id) },
+        { $inc: { fail: 1 } },
+        { returnOriginal: false }
+      );
     res
       .status(201)
       .json({ message: "Question created.", question, answer, user });
