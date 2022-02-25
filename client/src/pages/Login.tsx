@@ -18,6 +18,8 @@ interface Err {
   param: string;
   value: string;
 }
+
+
 const Login: FC = () => {
   const dispatch = useDispatch();
 
@@ -37,8 +39,6 @@ const Login: FC = () => {
         email,
         password,
       });
- 
- 
       dispatch(authActions.setToken(res.data.token));
     } catch (error: any) {
       if (error?.response?.status === 400) {
@@ -57,6 +57,7 @@ const Login: FC = () => {
         } ${errs.find((e) => e.param === "email")?.param ? "err" : ""}`}
       >
         <input
+           data-testid="email-input"
           type="text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -75,6 +76,7 @@ const Login: FC = () => {
         } ${errs.find((e) => e.param === "password")?.param ? "err" : ""}`}
       >
         <input
+           data-testid="password-input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -86,7 +88,7 @@ const Login: FC = () => {
           {errs.find((e) => e.param === "password")?.msg}
         </span>
       </div>{" "}
-      <button type="submit" className={`btn ${loading?'disable-btn':''}`}>
+      <button        data-testid="login-button" type="submit" className={`btn ${loading?'disable-btn':''}`}>
         Login
       </button>
        
