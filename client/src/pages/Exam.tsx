@@ -94,7 +94,7 @@ function Exam() {
       )}
       {answer && (
         <div className="exam-content__answer">
-          <span> {answer.text}</span>
+          <span onClick={() => speak({ text: answer.text })}> {answer.text}</span>
           <button
             onClick={() => {
               setAnswer(undefined);
