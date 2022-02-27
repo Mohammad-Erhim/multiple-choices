@@ -14,8 +14,8 @@ import { BrowserRouter, Router } from "react-router-dom";
 import store, { authActions } from "../store/";
 import axios from "axios";
 
-describe("login with no errors", () => {
-  test("app  if user do not have token", async () => {
+describe("login", () => {
+  test("login with no errors", async () => {
     const history = createBrowserHistory();
     const getSpy = jest.spyOn(axios, "post");
 
