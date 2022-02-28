@@ -1,5 +1,5 @@
 # multiple-choices (with test `end to end` example)
-# twitter-app
+
 ## Demo [https://multiple-choices-2018.herokuapp.com/](https://multiple-choices-2018.herokuapp.com/)
 (email:`test@gmail.com`,passsword:`111111`)
 
