@@ -1,7 +1,7 @@
 # multiple-choices (with test `end to end` example)
 
 ## Demo [https://multiple-choices-2018.herokuapp.com/](https://multiple-choices-2018.herokuapp.com/)
-(email:`test@gmail.com`,passsword:`111111`)
+(email:`test@gmail.com`,password:`111111`)
 
  
 
