@@ -23,8 +23,8 @@ interface Err {
 const Login: FC = () => {
   const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@gmail.com");
+  const [password, setPassword] = useState("111111");
 
   const [foucs, setFoucs] = useState<Inputs|null>(null);
   const [errs, setErrs] = useState<Err[]>([]);
